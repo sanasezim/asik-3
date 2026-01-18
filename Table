@@ -1,0 +1,49 @@
+-- 1️⃣ FILM таблицасы
+CREATE TABLE film (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100),
+    genre VARCHAR(50),
+    year INT
+);
+
+-- 2️⃣ VIEWER таблицасы
+CREATE TABLE viewer (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    age INT
+);
+
+-- 3️⃣ VIEWING (байланыс) таблицасы
+CREATE TABLE viewing (
+    id SERIAL PRIMARY KEY,
+    viewer_id INT REFERENCES viewer(id),
+    film_id INT REFERENCES film(id),
+    view_date DATE
+);
+
+-- 4️⃣ FILM таблицасына мәлімет енгізу
+INSERT INTO film (title, genre, year) VALUES
+('Inception', 'Sci-Fi', 2010),
+('Interstellar', 'Sci-Fi', 2014),
+('Titanic', 'Drama', 1997);
+
+-- 5️⃣ VIEWER таблицасына мәлімет енгізу
+INSERT INTO viewer (name, age) VALUES
+('Ali', 18),
+('Askar', 20),
+('Aruzhan', 19);
+
+-- 6️⃣ VIEWING таблицасына мәлімет енгізу
+INSERT INTO viewing (viewer_id, film_id, view_date) VALUES
+(1, 1, '2025-01-10'),
+(2, 2, '2025-01-11'),
+(3, 3, '2025-01-12');
+
+-- 7️⃣ НӘТИЖЕНІ КӨРУ (JOIN)
+SELECT
+    viewer.name AS viewer_name,
+    film.title AS film_title,
+    viewing.view_date
+FROM viewing
+JOIN viewer ON viewing.viewer_id = viewer.id
+JOIN film ON viewing.film_id = film.id;
